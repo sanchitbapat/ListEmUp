@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ListEmUp</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">Welcome to ListEmUp!</string>
+    <string name="list_items">Make a list of items</string>
     <string name="action_settings">Settings</string>
 </resources>
