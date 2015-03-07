@@ -32,6 +32,13 @@ public class MainActivity extends ActionBarActivity {
             }
 
         });
+        Button customerLogin=(Button)findViewById(R.id.button2);
+        customerLogin.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+            }
+
+        });
 
 
     }

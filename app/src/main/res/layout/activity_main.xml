@@ -14,7 +14,8 @@
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:layout_gravity="center_horizontal|top">
 
         <LinearLayout android:id="@+id/fullscreen_content_controls" style="?metaButtonBarStyle"
             android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -23,10 +24,15 @@
             tools:ignore="UselessParent">
 
             <Button android:id="@+id/button" style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_weight="1" android:text="@string/List" />
+                android:layout_width="match_parent" android:layout_height="197dp"
+                android:text="@string/List" />
 
         </LinearLayout>
+
+        <Button android:id="@+id/button2" style="?metaButtonBarButtonStyle"
+            android:layout_width="match_parent" android:layout_height="197dp"
+            android:text="@string/customer_login" />
+
     </FrameLayout>
 
 </FrameLayout>
