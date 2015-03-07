@@ -28,8 +28,9 @@ public class MainActivity extends ActionBarActivity {
         Button list=(Button)findViewById(R.id.button);
         list.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ListActivity.class));
+                startActivity(new Intent(MainActivity.this, FullscreenActivity.class));
             }
+
         });
 
 

@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">ListEmUp</string>
 
-    <string name="hello_world">Welcome to ListEmUp!</string>
+    <string name="Welcome_to_ListEmUp">Welcome to ListEmUp!</string>
     <string name="list_items">Make a list of items</string>
     <string name="action_settings">Settings</string>
+    <string name="List">List of items</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
