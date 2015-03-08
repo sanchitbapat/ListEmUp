@@ -191,8 +191,12 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
                     System.out.println("ONE");
                     showProgress(true);
                     mAuthTask = new UserLoginTask(email, password);
-                    startActivity(new Intent(LoginActivity.this, FullscreenActivity.class));
-                    System.out.println("\n\n\n"+parseObject.getString("type")+"\n\n\n");
+                    String type=parseObject.getString("type");
+                    //System.out.println("\n\n\n"+parseObject.getString("type")+"\n\n\n");
+                    if(type.equals("Customer"))
+                        startActivity(new Intent(LoginActivity.this, HotItemsActivity.class));
+                    else
+                        startActivity(new Intent(LoginActivity.this, FullscreenActivity.class));
                     //parseObject.get("UserName");
                     //System.out.println("\n\n\n"+parseObject.getString("UserName")+"\n\n\n");
                     /*mEmailView.setError("User already registered");

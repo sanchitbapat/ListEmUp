@@ -7,6 +7,13 @@
     <string name="login">Login</string>
     <string name="customer_login">Sign Up</string>
     <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_button">Add</string>
+    <string name="dummy_button2">Update Price</string>
+    <string name="dummy_button3">Update Inventory</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="dummy_content1"></string>
+
+    <string name="title_activity_hot_items">HotItemsActivity</string>
+
+    <string name="title_activity_update_price">UpdatePriceActivity</string>
 </resources>

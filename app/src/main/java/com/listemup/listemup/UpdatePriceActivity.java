@@ -17,9 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -28,7 +26,7 @@ import java.util.Set;
  *
  * @see SystemUiHider
  */
-public class FullscreenActivity extends Activity {
+public class UpdatePriceActivity extends Activity {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -61,39 +59,58 @@ public class FullscreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_fullscreen);
+        setContentView(R.layout.activity_update_price);
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
 
-        Button list=(Button)findViewById(R.id.dummy_button3);
+        final int x= (int) Math.ceil(Math.random()*100);
+        final ParseObject testObject = new ParseObject("ListItems");
+        Button list=(Button)findViewById(R.id.dummy_button2);
         list.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(FullscreenActivity.this, UpdatePriceActivity.class));
-            }
 
-        });
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("ItemsCount");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            String s="";
-            public void done(List<ParseObject> itemList, ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < itemList.size(); i++) {
-                        ParseObject p= itemList.get(i);
-                        s+=p.getString("Name")+"\t"+p.getInt("Count")+"\n";
-                        // 1 - can call methods of element
-                        // 2 - can use i to make index-based calls to methods of list
+                final TextView textView2= (TextView) findViewById(R.id.editText2);
+                final TextView textView3= (TextView) findViewById(R.id.editText3);
 
-                        // ...
+                final String itemName= textView2.getText().toString();
+                final String itemPrice= textView3.getText().toString();
+
+                //System.out.println("\n\ntext\n\n" + text + "\n\n\n");
+                ParseQuery<ParseObject> query1 = ParseQuery.getQuery("ListItems");
+                //query1.whereEqualTo("Location", x);
+                query1.whereEqualTo("Name",itemName);
+                query1.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> itemList, ParseException e) {
+                        if (e == null) {
+                            if(itemList.size()==0) {
+                                ParseObject itemsCount = new ParseObject("ListItems");
+                                itemsCount.put("Name",itemName);
+                                itemsCount.put("Price",itemPrice);
+                                itemsCount.put("Location",x+"");
+                                itemsCount.saveInBackground();
+                                System.out.println("\n\nName\n"+itemName+"\n\nPrice\n"+itemPrice+"\n\nLocation\n"+x+"\n\n");
+                            }
+                            else{
+                                itemList.get(0).put("Price", itemPrice);
+                                itemList.get(0).saveInBackground();
+                            }
+                            //.increment("Count");
+                        } else {
+
+                            //Log.d("score", "Error: " + e.getMessage());
+                        }
+
+
                     }
+                });
+                startActivity(new Intent(UpdatePriceActivity.this, FullscreenActivity.class));
 
-                    TextView view= (TextView) findViewById(R.id.fullscreen_content);
-                    view.setText(s);
-                } else {
-                    //Log.d("score", "Error: " + e.getMessage());
-                }
-
-
+                ParseObject items = new ParseObject("ListItems");
+                items.put("Name",itemName);
+                items.put("Price",itemPrice);
+                items.put("Location",x);
+                items.saveInBackground();
             }
         });
 
@@ -154,7 +171,7 @@ public class FullscreenActivity extends Activity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.dummy_button3).setOnTouchListener(mDelayHideTouchListener);
+        findViewById(R.id.dummy_button2).setOnTouchListener(mDelayHideTouchListener);
     }
 
     @Override

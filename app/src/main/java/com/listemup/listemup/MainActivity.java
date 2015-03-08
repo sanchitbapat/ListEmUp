@@ -27,8 +27,8 @@ public class MainActivity extends ActionBarActivity {
         testObject.put("foo", "bar");
         testObject.saveInBackground();*/
         ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+        /*testObject.put("foo", "bar");
+        testObject.saveInBackground();*/
         Button list=(Button)findViewById(R.id.button);
         list.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

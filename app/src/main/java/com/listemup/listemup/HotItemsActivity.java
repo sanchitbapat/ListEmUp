@@ -2,9 +2,11 @@ package com.listemup.listemup;
 
 import com.listemup.listemup.util.SystemUiHider;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.codec.digest.DigestUtils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -15,11 +17,12 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -28,7 +31,7 @@ import java.util.Set;
  *
  * @see SystemUiHider
  */
-public class FullscreenActivity extends Activity {
+public class HotItemsActivity extends Activity {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -61,40 +64,130 @@ public class FullscreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_fullscreen);
+        setContentView(R.layout.activity_hot_items);
+        final int x= (int) Math.ceil(Math.random()*100);
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
-
-        Button list=(Button)findViewById(R.id.dummy_button3);
+        final ParseObject testObject = new ParseObject("TestObject");
+        Button list=(Button)findViewById(R.id.dummy_button);
         list.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(FullscreenActivity.this, UpdatePriceActivity.class));
-            }
 
-        });
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("ItemsCount");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            String s="";
-            public void done(List<ParseObject> itemList, ParseException e) {
-                if (e == null) {
-                    for (int i = 0; i < itemList.size(); i++) {
-                        ParseObject p= itemList.get(i);
-                        s+=p.getString("Name")+"\t"+p.getInt("Count")+"\n";
-                        // 1 - can call methods of element
-                        // 2 - can use i to make index-based calls to methods of list
+                /*ParseQuery<ParseObject> query = ParseQuery.getQuery("Test");
+                query.whereEqualTo("DName", "SGH-T399");
+                query.setLimit(1);
+                query.orderByDescending("updatedAt");
+                query.getFirstInBackground(new GetCallback<ParseObject>() {
 
-                        // ...
+                    @Override
+                    public void done(ParseObject busobj, ParseException e) {
+                        // TODO Auto-generated method stub
+                        if (e == null) {
+                            Log.d("Inside getLatLng()","called get first record");
+                            Lat = busobj.getString("Latitude");
+                            Lng = busobj.getString("Longitude");
+                            latA =  Double.valueOf(Lat);
+                            lngA = Double.valueOf(Lng);
+                            locationA.setLatitude(latA);
+                            locationA.setLongitude(lngA);
+                            currLocation = new LatLng(latA, lngA);
+
+                            bus = map.addMarker(new MarkerOptions().position(currLocation)
+                                    .title("Current Location").icon(BitmapDescriptorFactory.fromResource(R.drawable.bus) ));
+
+                            float zoom = map.getCameraPosition().zoom;
+                            if (zoom < 14){
+                                zoom = 14;
+                                // Move the camera instantly to hamburg with a zoom of 15.
+                                map.moveCamera(CameraUpdateFactory.newLatLngZoom(currLocation, zoom));
+                                // Zoom in, animating the camera.
+                                map.animateCamera(CameraUpdateFactory.zoomTo(zoom), 10000, null);
+                            }
+
+                            txtlabel = (TextView) findViewById(R.id.textView1);
+
+                            Geocoder gcd = new Geocoder(cntxt, Locale.getDefault());
+                            try{
+                                List<Address> addresses = gcd.getFromLocation(latA, lngA, 1);
+                                if (addresses.size() > 0)
+                                {
+                                    txtlabel.setText("The Bus is at " + addresses.get(0).getAddressLine(0));
+                                }
+                            }catch(Exception ep){
+
+                            }
+                        } else {
+                            Log.d("score", "Error: " + e.getMessage());
+                        }
                     }
+                });*/
 
-                    TextView view= (TextView) findViewById(R.id.fullscreen_content);
-                    view.setText(s);
-                } else {
-                    //Log.d("score", "Error: " + e.getMessage());
-                }
+                final TextView textView= (TextView) findViewById(R.id.editText);
+
+                final String text= textView.getText().toString();
+                ParseObject items = new ParseObject("Items");
+                items.put("Name",text);
+                items.put("Location",x);
+                items.saveInBackground();
 
 
+/*make a list*/
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Items");
+                query.whereEqualTo("Location", x);
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    String s="";
+                    public void done(List<ParseObject> itemList, ParseException e) {
+                        if (e == null) {
+                            for (int i = 0; i < itemList.size(); i++) {
+                                ParseObject p= itemList.get(i);
+                                s+=p.getString("Name")+"\n";
+                                // 1 - can call methods of element
+                                // 2 - can use i to make index-based calls to methods of list
+
+                                // ...
+                            }
+
+                            TextView view= (TextView) findViewById(R.id.fullscreen_content);
+                            view.setText(s);
+                        } else {
+                            //Log.d("score", "Error: " + e.getMessage());
+                        }
+
+
+                    }
+                });
+
+/*maintain count*/
+
+                System.out.println("\n\ntext\n\n" + text + "\n\n\n");
+                ParseQuery<ParseObject> query1 = ParseQuery.getQuery("ItemsCount");
+                query1.whereEqualTo("Name", text);
+                query1.findInBackground(new FindCallback<ParseObject>() {
+                    public void done(List<ParseObject> itemList, ParseException e) {
+                        if (e == null) {
+                            if(itemList.size()==0) {
+                                ParseObject itemsCount = new ParseObject("ItemsCount");
+                                itemsCount.put("Name",text);
+                                itemsCount.put("Count",1);
+                                itemsCount.saveInBackground();
+                            }
+                            else{
+                                itemList.get(0).increment("Count");
+                                itemList.get(0).saveInBackground();
+                            }
+                            //.increment("Count");
+                        } else {
+
+                            //Log.d("score", "Error: " + e.getMessage());
+                        }
+
+
+                    }
+                });
+                //startActivity(new Intent(HotItemsActivity.this, HotItemsActivity.class));
             }
+
         });
 
         // Set up an instance of SystemUiHider to control the system UI for
@@ -154,7 +247,7 @@ public class FullscreenActivity extends Activity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.dummy_button3).setOnTouchListener(mDelayHideTouchListener);
+        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
     }
 
     @Override

@@ -49,6 +49,18 @@
             android:label="@string/title_activity_register"
             android:windowSoftInputMode="adjustResize|stateHidden" >
         </activity>
+        <activity
+            android:name=".HotItemsActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_hot_items"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
+        <activity
+            android:name=".UpdatePriceActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_update_price"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
     </application>
 
 </manifest>
