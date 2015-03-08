@@ -78,6 +78,7 @@ public class RegisterActivity extends PlusBaseActivity implements LoaderCallback
     private RadioButton radioButton;
     boolean cancel = false;
     View focusView = null;
+    final int location= (int) Math.ceil(Math.random()*100);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +90,8 @@ public class RegisterActivity extends PlusBaseActivity implements LoaderCallback
         //Parse.initialize(this, "DCyuMQSuWLtitA7ABvpzP5rThP1c3RgmSePXuBYz", "JBBJl68IDFMk9pNXLbn8g0Ov8HLWBwDbgIlxxgV6");
         //ParseObject testObject = new ParseObject("TestObject");
         // Find the Google+ sign in button.
+
+
         mPlusSignInButton = (SignInButton) findViewById(R.id.plus_sign_in_button);
         if (supportsGooglePlayServices()) {
             // Set a listener to connect the user when the G+ button is clicked.
@@ -104,6 +107,7 @@ public class RegisterActivity extends PlusBaseActivity implements LoaderCallback
             mPlusSignInButton.setVisibility(View.GONE);
             return;
         }
+
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -211,8 +215,12 @@ public class RegisterActivity extends PlusBaseActivity implements LoaderCallback
                     int type = radioGroup.getCheckedRadioButtonId();
                     radioButton=(RadioButton) findViewById(type);
                     testObject.put("type", radioButton.getText());
+                    testObject.put("Location",location+"");
                     testObject.saveInBackground();
-                    startActivity(new Intent(RegisterActivity.this, FullscreenActivity.class));
+                    if(radioButton.getText().equals("Customer"))
+                        startActivity(new Intent(RegisterActivity.this, HotItemsActivity.class));
+                    else
+                        startActivity(new Intent(RegisterActivity.this, FullscreenActivity.class));
                 }
             }
         });
