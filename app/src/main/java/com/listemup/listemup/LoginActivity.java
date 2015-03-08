@@ -7,6 +7,7 @@ import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,16 +25,24 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
+import com.parse.GetCallback;
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
+//import java.text.ParseException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import com.parse.ParseException;
 
 
 /**
@@ -66,6 +75,10 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
     private SignInButton mPlusSignInButton;
     private View mSignOutButtons;
     private View mLoginFormView;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
+    boolean cancel = false;
+    View focusView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,11 +154,11 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
+        final ParseObject testObject = new ParseObject("TestObject");
 
-        boolean cancel = false;
-        View focusView = null;
+
 
 
         // Check for a valid password, if the user entered one.
@@ -165,6 +178,51 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
             focusView = mEmailView;
             cancel = true;
         }
+        System.out.println("\n\n\n\n"+email+"\n\n\n\n");
+        //ParseQuery<ParseObject> query = ParseQuery.getQuery("Test");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("TestObject");
+        query.whereEqualTo("UserName", email);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (e == null) {
+                    System.out.println("ONE");
+                    //parseObject.get("UserName");
+                    //System.out.println("\n\n\n"+parseObject.getString("UserName")+"\n\n\n");
+                    mEmailView.setError("User already registered");
+                    cancel = true;
+                    startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                    focusView = mEmailView;
+                    focusView.requestFocus();
+                    //focusView.requestFocus();
+                } else {
+                    System.out.println("TWO");
+                    showProgress(true);
+                    mAuthTask = new UserLoginTask(email, password);
+                    System.out.println("\n\n\n" + e + "\n\n\n");
+                    testObject.put("UserName", email);
+                    testObject.put("Password", password);
+                    /*try {
+                        testObject.put("password", password);
+                    } catch (Exception e1) {
+                        e1.printStackTrace();
+                    }*/
+                    radioGroup=(RadioGroup) findViewById(R.id.radio);
+                    int type = radioGroup.getCheckedRadioButtonId();
+                    radioButton=(RadioButton) findViewById(type);
+                    testObject.put("type", radioButton.getText());
+                    testObject.saveInBackground();
+                    startActivity(new Intent(LoginActivity.this, FullscreenActivity.class));
+                }
+            }
+        });
+        //System.out.println("\n\n\n"+testObject.containsKey(email)+"\n\n\n");
+
+        /*if(testObject.containsKey("UserName")) {
+            mEmailView.setError("User already registered");
+            cancel = true;
+            focusView = mEmailView;
+        }*/
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -174,16 +232,24 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            //mAuthTask = new UserLoginTask(email, password);
             //mAuthTask.execute((Void) null);
             // Enable Local Datastore.
 
 
-
-            ParseObject testObject = new ParseObject("TestObject");
-            testObject.put("UserName", email);
-            testObject.put("password", password);
-            testObject.saveInBackground();
+            /*if(testObject.containsKey("UserName")) {
+                mEmailView.setError("User already registered");
+                cancel = true;
+                focusView = mEmailView;
+                focusView.requestFocus();
+            }
+            else {*/
+              /*  testObject.put("UserName", email);
+                testObject.put("password", password);
+                testObject.saveInBackground();
+                System.out.println("\n\n\n"+testObject.getString("UserName")+"\n\n\n");
+                startActivity(new Intent(LoginActivity.this, FullscreenActivity.class));*/
+            //}
         }
     }
 
