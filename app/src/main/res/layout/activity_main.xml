@@ -25,7 +25,7 @@
 
             <Button android:id="@+id/button" style="?metaButtonBarButtonStyle"
                 android:layout_width="match_parent" android:layout_height="197dp"
-                android:text="@string/List" />
+                android:text="@string/login" />
 
         </LinearLayout>
 

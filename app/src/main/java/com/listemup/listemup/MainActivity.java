@@ -22,20 +22,24 @@ public class MainActivity extends ActionBarActivity {
         Parse.enableLocalDatastore(this);
 
         Parse.initialize(this, "DCyuMQSuWLtitA7ABvpzP5rThP1c3RgmSePXuBYz", "JBBJl68IDFMk9pNXLbn8g0Ov8HLWBwDbgIlxxgV6");
+
+/*        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();*/
         ParseObject testObject = new ParseObject("TestObject");
         testObject.put("foo", "bar");
         testObject.saveInBackground();
         Button list=(Button)findViewById(R.id.button);
         list.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, FullscreenActivity.class));
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
             }
 
         });
         Button customerLogin=(Button)findViewById(R.id.button2);
         customerLogin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                startActivity(new Intent(MainActivity.this, RegisterActivity.class));
             }
 
         });

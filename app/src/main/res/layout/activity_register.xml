@@ -5,7 +5,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.listemup.listemup.LoginActivity">
+    tools:context="com.listemup.listemup.RegisterActivity">
 
     <!-- Login progress -->
     <ProgressBar android:id="@+id/login_progress" style="?android:attr/progressBarStyleLarge"
@@ -27,12 +27,12 @@
 
                 <Button android:id="@+id/plus_sign_out_button" style="?android:textAppearanceSmall"
                     android:layout_width="match_parent" android:layout_height="match_parent"
-                    android:layout_weight="1" android:text="@string/plus_sign_out" />
+                    android:layout_weight="1" android:text="@string/plus_sign_out_r" />
 
                 <Button android:id="@+id/plus_disconnect_button"
                     style="?android:textAppearanceSmall" android:layout_width="match_parent"
                     android:layout_height="match_parent" android:layout_weight="1"
-                    android:text="@string/plus_disconnect" />
+                    android:text="@string/plus_disconnect_r" />
 
             </LinearLayout>
 
@@ -40,18 +40,18 @@
                 android:layout_height="wrap_content" android:orientation="vertical">
 
                 <AutoCompleteTextView android:id="@+id/email" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:hint="@string/prompt_email"
+                    android:layout_height="wrap_content" android:hint="@string/prompt_email_r"
                     android:inputType="textEmailAddress" android:maxLines="1"
                     android:singleLine="true" />
 
                 <EditText android:id="@+id/password" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:hint="@string/prompt_password"
+                    android:layout_height="wrap_content" android:hint="@string/prompt_password_r"
                     android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeActionLabel="@string/action_sign_in_short_r"
                     android:imeOptions="actionUnspecified" android:inputType="textPassword"
                     android:maxLines="1" android:singleLine="true" />
 
-                <!--<RadioGroup
+                <RadioGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -69,11 +69,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Customer" />
-                    </RadioGroup>-->
+                </RadioGroup>
 
                 <Button android:id="@+id/email_sign_in_button" style="?android:textAppearanceSmall"
                     android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp" android:text="@string/action_sign_in"
+                    android:layout_marginTop="16dp" android:text="@string/action_sign_in_r"
                     android:textStyle="bold" />
 
             </LinearLayout>

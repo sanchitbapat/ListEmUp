@@ -34,16 +34,14 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
 import com.parse.GetCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.codec.digest.DigestUtils;
 
-//import java.text.ParseException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import com.parse.ParseException;
-import com.parse.codec.digest.DigestUtils;
 
 
 /**
@@ -54,7 +52,7 @@ import com.parse.codec.digest.DigestUtils;
  * https://developers.google.com/+/mobile/android/getting-started#step_1_enable_the_google_api
  * and follow the steps in "Step 1" to create an OAuth 2.0 client for your package.
  */
-public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<Cursor> {
+public class RegisterActivity extends PlusBaseActivity implements LoaderCallbacks<Cursor> {
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -76,18 +74,20 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
     private SignInButton mPlusSignInButton;
     private View mSignOutButtons;
     private View mLoginFormView;
-    /*private RadioGroup radioGroup;
-    private RadioButton radioButton;*/
+    private RadioGroup radioGroup;
+    private RadioButton radioButton;
     boolean cancel = false;
     View focusView = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        /*Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "DCyuMQSuWLtitA7ABvpzP5rThP1c3RgmSePXuBYz", "JBBJl68IDFMk9pNXLbn8g0Ov8HLWBwDbgIlxxgV6");*/
+        setContentView(R.layout.activity_register);
 
+        //Parse.enableLocalDatastore(this);
+
+        //Parse.initialize(this, "DCyuMQSuWLtitA7ABvpzP5rThP1c3RgmSePXuBYz", "JBBJl68IDFMk9pNXLbn8g0Ov8HLWBwDbgIlxxgV6");
+        //ParseObject testObject = new ParseObject("TestObject");
         // Find the Google+ sign in button.
         mPlusSignInButton = (SignInButton) findViewById(R.id.plus_sign_in_button);
         if (supportsGooglePlayServices()) {
@@ -160,81 +160,62 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
         final ParseObject testObject = new ParseObject("TestObject");
 
 
-
-
         // Check for a valid password, if the user entered one.
         if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+            mPasswordView.setError(getString(R.string.error_invalid_password_r));
             focusView = mPasswordView;
             cancel = true;
         }
 
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
+            mEmailView.setError(getString(R.string.error_field_required_r));
             focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
+            mEmailView.setError(getString(R.string.error_invalid_email_r));
             focusView = mEmailView;
             cancel = true;
         }
-        System.out.println("\n\n\n\n"+email+"\n\n\n\n");
-        //ParseQuery<ParseObject> query = ParseQuery.getQuery("Test");
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("TestObject");
         query.whereEqualTo("UserName", email);
-        query.whereEqualTo("Password", DigestUtils.md5Hex(password));
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
                     System.out.println("ONE");
-                    showProgress(true);
-                    mAuthTask = new UserLoginTask(email, password);
-                    startActivity(new Intent(LoginActivity.this, FullscreenActivity.class));
-                    System.out.println("\n\n\n"+parseObject.getString("type")+"\n\n\n");
                     //parseObject.get("UserName");
                     //System.out.println("\n\n\n"+parseObject.getString("UserName")+"\n\n\n");
-                    /*mEmailView.setError("User already registered");
+                    mEmailView.setError("User already registered");
                     cancel = true;
-                    startActivity(new Intent(LoginActivity.this, LoginActivity.class));
+                    startActivity(new Intent(RegisterActivity.this, RegisterActivity.class));
                     focusView = mEmailView;
-                    focusView.requestFocus();*/
+                    focusView.requestFocus();
                     //focusView.requestFocus();
                 } else {
                     System.out.println("TWO");
-                    mEmailView.setError("No such user");
-                    cancel = true;
-                    startActivity(new Intent(LoginActivity.this, LoginActivity.class));
-                    focusView = mEmailView;
-                    focusView.requestFocus();
-
-                    /*showProgress(true);
+                    showProgress(true);
                     mAuthTask = new UserLoginTask(email, password);
-                    System.out.println("\n\n\n" + e + "\n\n\n");
+                    System.out.println("\n\neeee\n" + e + "\n\n\n");
                     testObject.put("UserName", email);
-                    testObject.put("Password", password);*/
+                    //testObject.put("Password", password);
+                    String x=DigestUtils.md5Hex(password);
+                    testObject.put("Password", x);
                     /*try {
-                        testObject.put("password", password);
+
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }*/
-                    /*radioGroup=(RadioGroup) findViewById(R.id.radio);
+                    radioGroup=(RadioGroup) findViewById(R.id.radio);
                     int type = radioGroup.getCheckedRadioButtonId();
                     radioButton=(RadioButton) findViewById(type);
-                    testObject.put("type", radioButton.getText());*/
-                    /*testObject.saveInBackground();
-                    startActivity(new Intent(LoginActivity.this, FullscreenActivity.class));*/
+                    testObject.put("type", radioButton.getText());
+                    testObject.saveInBackground();
+                    startActivity(new Intent(RegisterActivity.this, FullscreenActivity.class));
                 }
             }
         });
-        //System.out.println("\n\n\n"+testObject.containsKey(email)+"\n\n\n");
-
-        /*if(testObject.containsKey("UserName")) {
-            mEmailView.setError("User already registered");
-            cancel = true;
-            focusView = mEmailView;
-        }*/
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -244,24 +225,8 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            //mAuthTask = new UserLoginTask(email, password);
-            //mAuthTask.execute((Void) null);
-            // Enable Local Datastore.
-
-
-            /*if(testObject.containsKey("UserName")) {
-                mEmailView.setError("User already registered");
-                cancel = true;
-                focusView = mEmailView;
-                focusView.requestFocus();
-            }
-            else {*/
-              /*  testObject.put("UserName", email);
-                testObject.put("password", password);
-                testObject.saveInBackground();
-                System.out.println("\n\n\n"+testObject.getString("UserName")+"\n\n\n");
-                startActivity(new Intent(LoginActivity.this, FullscreenActivity.class));*/
-            //}
+            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask.execute((Void) null);
         }
     }
 
@@ -415,7 +380,7 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(LoginActivity.this,
+                new ArrayAdapter<String>(RegisterActivity.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);
@@ -466,7 +431,7 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
             if (success) {
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.setError(getString(R.string.error_incorrect_password_r));
                 mPasswordView.requestFocus();
             }
         }
