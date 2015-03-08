@@ -61,6 +61,12 @@
             android:label="@string/title_activity_update_price"
             android:theme="@style/FullscreenTheme" >
         </activity>
+        <activity
+            android:name=".ViewPricesActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_view_prices"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
     </application>
 
 </manifest>

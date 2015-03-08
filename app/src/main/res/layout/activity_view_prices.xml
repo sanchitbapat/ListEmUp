@@ -1,7 +1,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:background="#0099cc"
-    tools:context="com.listemup.listemup.HotItemsActivity">
+    tools:context="com.listemup.listemup.ViewPricesActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
@@ -14,7 +14,8 @@
     <!-- This FrameLayout insets its children based on system windows using
          android:fitsSystemWindows. -->
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
+        android:fitsSystemWindows="true"
+        android:layout_gravity="right|top">
 
         <LinearLayout android:id="@+id/fullscreen_content_controls" style="?metaButtonBarStyle"
             android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -22,34 +23,36 @@
             android:background="@color/black_overlay" android:orientation="horizontal"
             tools:ignore="UselessParent">
 
+            <Button android:id="@+id/dummy_button1" style="?metaButtonBarButtonStyle"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="@string/dummy_button1" />
+
         </LinearLayout>
 
-        <Button android:id="@+id/dummy_button" style="?metaButtonBarButtonStyle"
-            android:layout_width="118dp" android:layout_height="wrap_content"
-            android:layout_weight="1" android:text="@string/dummy_button"
+        <TextView
+            android:layout_width="116dp"
+            android:layout_height="47dp"
+            android:text="Location"
+            android:id="@+id/textView"
+            android:layout_gravity="left|top"
+            android:textSize="25sp"
+            android:focusableInTouchMode="false" />
+
+        <TextView
+            android:layout_width="111dp"
+            android:layout_height="41dp"
+            android:text="Name"
+            android:id="@+id/textView2"
+            android:textSize="25sp"
+            android:layout_gravity="center_horizontal|top" />
+
+        <TextView
+            android:layout_width="107dp"
+            android:layout_height="60dp"
+            android:text="Price"
+            android:id="@+id/textView3"
+            android:textSize="25sp"
             android:layout_gravity="right|top" />
-
-        <EditText
-            android:layout_width="269dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/editText"
-            android:layout_gravity="left|top" />
-
-        <ScrollView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/scrollView2"
-            android:layout_gravity="center" >
-
-        </ScrollView>
-
-        <Button
-            android:layout_width="377dp"
-            android:layout_height="wrap_content"
-            android:text="View Prices"
-            android:id="@+id/button3"
-            android:layout_gravity="right|bottom" />
-
     </FrameLayout>
 
 </FrameLayout>

@@ -65,7 +65,15 @@ public class HotItemsActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_hot_items);
+
         final int x= (int) Math.ceil(Math.random()*100);
+        Button list1=(Button)findViewById(R.id.button3);
+        list1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                startActivity(new Intent(HotItemsActivity.this, ViewPricesActivity.class));
+            }
+
+        });
 
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);

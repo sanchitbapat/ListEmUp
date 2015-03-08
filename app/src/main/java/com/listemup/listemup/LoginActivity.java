@@ -9,6 +9,7 @@ import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -192,19 +193,14 @@ public class LoginActivity extends PlusBaseActivity implements LoaderCallbacks<C
                     showProgress(true);
                     mAuthTask = new UserLoginTask(email, password);
                     String type=parseObject.getString("type");
-                    //System.out.println("\n\n\n"+parseObject.getString("type")+"\n\n\n");
+
                     if(type.equals("Customer"))
                         startActivity(new Intent(LoginActivity.this, HotItemsActivity.class));
                     else
                         startActivity(new Intent(LoginActivity.this, FullscreenActivity.class));
-                    //parseObject.get("UserName");
-                    //System.out.println("\n\n\n"+parseObject.getString("UserName")+"\n\n\n");
-                    /*mEmailView.setError("User already registered");
-                    cancel = true;
-                    startActivity(new Intent(LoginActivity.this, LoginActivity.class));
-                    focusView = mEmailView;
-                    focusView.requestFocus();*/
-                    //focusView.requestFocus();
+
+
+
                 } else {
                     System.out.println("TWO");
                     mEmailView.setError("No such user");
